@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>後台管理｜意願調查系統</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d26;
+    --surface2: #22263a;
+    --border: #2e3347;
+    --accent: #d4a853;
+    --accent2: #5a7a52;
+    --red: #e05c44;
+    --text: #e8e2d8;
+    --muted: #7a7e8e;
+    --gold-glow: rgba(212,168,83,0.15);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans TC', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* LOGIN */
+  #loginScreen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background:
+      radial-gradient(ellipse at 30% 30%, rgba(212,168,83,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse at 70% 70%, rgba(90,122,82,0.05) 0%, transparent 60%),
+      var(--bg);
+  }
+  .login-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 48px 40px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  .login-logo {
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, var(--accent), #a07830);
+    border-radius: 14px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+  }
+  .login-box h2 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 20px;
+    margin-bottom: 6px;
+  }
+  .login-box p {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 32px;
+  }
+  .login-box input {
+    width: 100%;
+    padding: 14px 16px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 16px;
+    text-align: center;
+    letter-spacing: 4px;
+    outline: none;
+    margin-bottom: 16px;
+    transition: border-color 0.2s;
+    font-family: monospace;
+  }
+  .login-box input:focus { border-color: var(--accent); }
+  .login-btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--accent), #a07830);
+    color: #1a0f00;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Noto Sans TC', sans-serif;
+    transition: opacity 0.2s;
+  }
+  .login-btn:hover { opacity: 0.9; }
+  .login-error {
+    color: var(--red);
+    font-size: 13px;
+    margin-top: 10px;
+    display: none;
+  }
+
+  /* ADMIN */
+  #adminScreen { display: none; }
+
+  .topbar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .topbar-logo {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--accent), #a07830);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+  .topbar h1 {
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 1px;
+  }
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .btn-refresh, .btn-export, .btn-logout {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: none;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  .btn-refresh {
+    background: var(--surface2);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-refresh:hover { border-color: var(--accent); }
+  .btn-export {
+    background: var(--accent2);
+    color: white;
+  }
+  .btn-export:hover { opacity: 0.85; }
+  .btn-logout {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+  .btn-logout:hover { color: var(--red); border-color: var(--red); }
+
+  .main-content {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 24px;
+  }
+
+  /* Stats */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 22px;
+    position: relative;
+    overflow: hidden;
+  }
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--accent);
+  }
+  .stat-card.green::before { background: var(--accent2); }
+  .stat-card.red::before { background: var(--red); }
+  .stat-label {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+  .stat-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-card.green .stat-value { color: var(--accent2); }
+  .stat-card.red .stat-value { color: var(--red); }
+  .stat-sub { font-size: 12px; color: var(--muted); }
+
+  /* Charts section */
+  .charts-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+  @media(max-width: 700px) { .charts-row { grid-template-columns: 1fr; } }
+  .chart-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+  }
+  .chart-card h3 {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .bar-item { margin-bottom: 14px; }
+  .bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .bar-label span:last-child { color: var(--muted); }
+  .bar-track {
+    height: 8px;
+    background: var(--surface2);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--accent), #f0c070);
+    transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
+  }
+  .bar-fill.green { background: linear-gradient(90deg, var(--accent2), #7aaa70); }
+
+  /* Table */
+  .table-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .table-header {
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .table-header h3 {
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .table-count {
+    font-size: 12px;
+    color: var(--muted);
+    background: var(--surface2);
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+  .table-wrap { overflow-x: auto; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  thead tr {
+    background: var(--surface2);
+  }
+  th {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--muted);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  td {
+    padding: 13px 16px;
+    font-size: 13px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .badge-support { background: rgba(90,122,82,0.2); color: #8aba82; }
+  .badge-condition { background: rgba(212,168,83,0.2); color: #d4a853; }
+  .badge-concern { background: rgba(100,130,180,0.2); color: #90b0e0; }
+  .badge-reserve { background: rgba(200,100,80,0.2); color: #e07060; }
+  .q2-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+  .q2-tag {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 7px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .loading-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .timestamp { color: var(--muted); font-size: 12px; }
+  .name-cell { font-weight: 500; }
+
+  @media(max-width: 600px) {
+    .topbar { padding: 0 16px; }
+    .topbar h1 { display: none; }
+    .main-content { padding: 20px 16px; }
+    .btn-refresh span { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">🔐</div>
+    <h2>後台管理系統</h2>
+    <p>雲科 × 湖山意願調查 · 管理員入口</p>
+    <input type="password" id="passwordInput" placeholder="請輸入管理員密碼" maxlength="20">
+    <button class="login-btn" onclick="doLogin()">登入系統</button>
+    <div class="login-error" id="loginError">密碼錯誤，請重新輸入</div>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div id="adminScreen">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-logo">📊</div>
+      <h1>意願調查後台</h1>
+    </div>
+    <div class="topbar-right">
+      <button class="btn-refresh" onclick="loadData()"><span>重新整理</span> 🔄</button>
+      <button class="btn-export" onclick="exportExcel()">📥 下載 Excel</button>
+      <button class="btn-logout" onclick="doLogout()">登出</button>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">總回覆數</div>
+        <div class="stat-value" id="statTotal">—</div>
+        <div class="stat-sub">份問卷</div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-label">支持交出手機</div>
+        <div class="stat-value" id="statSupport">—</div>
+        <div class="stat-sub">含全力支持＋有條件＋有顧慮</div>
+      </div>
+      <div class="stat-card red">
+        <div class="stat-label">保留態度</div>
+        <div class="stat-value" id="statReserve">—</div>
+        <div class="stat-sub">傾向自行保管</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">最多人支持配套</div>
+        <div class="stat-value" style="font-size:18px; padding-top:4px" id="statTopQ2">—</div>
+        <div class="stat-sub">手機保管方式</div>
+      </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="charts-row">
+      <div class="chart-card">
+        <h3>Q1 · 手機交出意願分佈</h3>
+        <div id="q1Chart"></div>
+      </div>
+      <div class="chart-card">
+        <h3>Q2 · 保管配套偏好（複選）</h3>
+        <div id="q2Chart"></div>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-card">
+      <div class="table-header">
+        <h3>回覆明細</h3>
+        <div class="table-count" id="tableCount">共 0 筆</div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>填答時間</th>
+              <th>稱呼</th>
+              <th>Q1 手機交出意願</th>
+              <th>Q2 保管配套（複選）</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <tr><td colspan="5" class="loading-state">載入中…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Firebase -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+  // ✅ 請將以下設定替換為您的 Firebase 專案設定
+  const firebaseConfig = {
+    apiKey: "AIzaSyA4pcwGPb6PRKU2Cpsqo6S0zAefY-KjyBM",
+    authDomain: "mobile01-55a64.firebaseapp.com",
+    databaseURL: "https://mobile01-55a64-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "mobile01-55a64",
+    storageBucket: "mobile01-55a64.firebasestorage.app",
+    messagingSenderId: "687175255662",
+    appId: "1:687175255662:web:141eca9d013fe3bc36887f"
+  };
+
+  const ADMIN_PASSWORD = "12345678";
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  let allData = [];
+
+  window.doLogin = function() {
+    const pw = document.getElementById('passwordInput').value;
+    if (pw === ADMIN_PASSWORD) {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('adminScreen').style.display = 'block';
+      window.loadData();
+    } else {
+      document.getElementById('loginError').style.display = 'block';
+      document.getElementById('passwordInput').value = '';
+    }
+  };
+
+  document.getElementById('passwordInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') window.doLogin();
+  });
+
+  window.doLogout = function() {
+    document.getElementById('loginScreen').style.display = 'flex';
+    document.getElementById('adminScreen').style.display = 'none';
+    document.getElementById('passwordInput').value = '';
+  };
+
+  window.loadData = function() {
+    document.getElementById('tableBody').innerHTML = '<tr><td colspan="5" class="loading-state">載入資料中…</td></tr>';
+    onValue(ref(db, 'surveys'), snapshot => {
+      const raw = snapshot.val();
+      allData = raw ? Object.entries(raw).map(([id, v]) => ({ id, ...v })) : [];
+      allData.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+      renderAll(allData);
+    }, { onlyOnce: true });
+  };
+
+  function renderAll(data) {
+    renderStats(data);
+    renderCharts(data);
+    renderTable(data);
+  }
+
+  function renderStats(data) {
+    const total = data.length;
+    const support = data.filter(d => d.q1 !== '持保留態度').length;
+    const reserve = data.filter(d => d.q1 === '持保留態度').length;
+
+    // Count Q2
+    const q2Count = {};
+    data.forEach(d => {
+      if (d.q2_array) d.q2_array.forEach(v => { q2Count[v] = (q2Count[v]||0)+1; });
+    });
+    const topQ2 = Object.entries(q2Count).sort((a,b) => b[1]-a[1])[0];
+
+    document.getElementById('statTotal').textContent = total;
+    document.getElementById('statSupport').textContent = support;
+    document.getElementById('statReserve').textContent = reserve;
+    document.getElementById('statTopQ2').textContent = topQ2 ? topQ2[0] : '—';
+    document.getElementById('tableCount').textContent = `共 ${total} 筆`;
+  }
+
+  function renderCharts(data) {
+    const total = data.length || 1;
+
+    // Q1
+    const q1Options = ['全力支持', '支持但有條件', '支持但有顧慮', '持保留態度'];
+    const q1Count = {};
+    q1Options.forEach(o => q1Count[o] = 0);
+    data.forEach(d => { if (q1Count[d.q1] !== undefined) q1Count[d.q1]++; });
+
+    const q1Html = q1Options.map(opt => {
+      const cnt = q1Count[opt];
+      const pct = Math.round(cnt / total * 100);
+      return `<div class="bar-item">
+        <div class="bar-label"><span>${opt}</span><span>${cnt} 票 (${pct}%)</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
+      </div>`;
+    }).join('');
+    document.getElementById('q1Chart').innerHTML = q1Html;
+
+    // Q2
+    const q2Options = ['全天候封存', '特定時段開放', '定點開放', '官方紀錄'];
+    const q2Count = {};
+    q2Options.forEach(o => q2Count[o] = 0);
+    data.forEach(d => {
+      if (d.q2_array) d.q2_array.forEach(v => { if (q2Count[v] !== undefined) q2Count[v]++; });
+    });
+
+    const q2Html = q2Options.map(opt => {
+      const cnt = q2Count[opt];
+      const pct = Math.round(cnt / total * 100);
+      return `<div class="bar-item">
+        <div class="bar-label"><span>${opt}</span><span>${cnt} 票 (${pct}%)</span></div>
+        <div class="bar-track"><div class="bar-fill green" style="width:${pct}%"></div></div>
+      </div>`;
+    }).join('');
+    document.getElementById('q2Chart').innerHTML = q2Html;
+  }
+
+  function renderTable(data) {
+    const tbody = document.getElementById('tableBody');
+    if (data.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" class="empty-state">尚無回覆資料</td></tr>';
+      return;
+    }
+
+    const badgeClass = { '全力支持': 'badge-support', '支持但有條件': 'badge-condition', '支持但有顧慮': 'badge-concern', '持保留態度': 'badge-reserve' };
+
+    tbody.innerHTML = data.map((row, i) => {
+      const dt = new Date(row.timestamp);
+      const dateStr = `${dt.getFullYear()}/${String(dt.getMonth()+1).padStart(2,'0')}/${String(dt.getDate()).padStart(2,'0')}`;
+      const timeStr = `${String(dt.getHours()).padStart(2,'0')}:${String(dt.getMinutes()).padStart(2,'0')}`;
+      const cls = badgeClass[row.q1] || '';
+      const tags = row.q2_array && row.q2_array.length > 0
+        ? `<div class="q2-tags">${row.q2_array.map(t => `<span class="q2-tag">${t}</span>`).join('')}</div>`
+        : '<span style="color:#555">（未選）</span>';
+      return `<tr>
+        <td style="color:var(--muted)">${data.length - i}</td>
+        <td class="timestamp">${dateStr}<br>${timeStr}</td>
+        <td class="name-cell">${row.name || '匿名'}</td>
+        <td><span class="badge ${cls}">${row.q1}</span></td>
+        <td>${tags}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  window.exportExcel = function() {
+    if (allData.length === 0) { alert('目前沒有資料可以下載。'); return; }
+
+    const wsData = [
+      ['序號', '填答時間', '稱呼', 'Q1 手機交出意願', 'Q2 全天候封存', 'Q2 特定時段開放', 'Q2 定點開放', 'Q2 官方紀錄', 'Q2 所有選項']
+    ];
+
+    allData.slice().reverse().forEach((row, i) => {
+      const dt = new Date(row.timestamp);
+      const dateStr = `${dt.getFullYear()}/${String(dt.getMonth()+1).padStart(2,'0')}/${String(dt.getDate()).padStart(2,'0')} ${String(dt.getHours()).padStart(2,'0')}:${String(dt.getMinutes()).padStart(2,'0')}`;
+      const q2arr = row.q2_array || [];
+      wsData.push([
+        i + 1,
+        dateStr,
+        row.name || '匿名',
+        row.q1 || '',
+        q2arr.includes('全天候封存') ? '✓' : '',
+        q2arr.includes('特定時段開放') ? '✓' : '',
+        q2arr.includes('定點開放') ? '✓' : '',
+        q2arr.includes('官方紀錄') ? '✓' : '',
+        row.q2 || ''
+      ]);
+    });
+
+    // Summary sheet
+    const total = allData.length;
+    const q1Count = { '全力支持': 0, '支持但有條件': 0, '支持但有顧慮': 0, '持保留態度': 0 };
+    const q2Count = { '全天候封存': 0, '特定時段開放': 0, '定點開放': 0, '官方紀錄': 0 };
+    allData.forEach(d => {
+      if (q1Count[d.q1] !== undefined) q1Count[d.q1]++;
+      (d.q2_array || []).forEach(v => { if (q2Count[v] !== undefined) q2Count[v]++; });
+    });
+
+    const summaryData = [
+      ['雲科 × 湖山親子活動意願調查統計', '', ''],
+      ['匯出時間', new Date().toLocaleString('zh-TW'), ''],
+      ['', '', ''],
+      ['【Q1 手機交出意願】', '票數', '佔比'],
+      ['全力支持', q1Count['全力支持'], `${Math.round(q1Count['全力支持']/total*100)}%`],
+      ['支持，但有條件', q1Count['支持但有條件'], `${Math.round(q1Count['支持但有條件']/total*100)}%`],
+      ['支持，但有顧慮', q1Count['支持但有顧慮'], `${Math.round(q1Count['支持但有顧慮']/total*100)}%`],
+      ['持保留態度', q1Count['持保留態度'], `${Math.round(q1Count['持保留態度']/total*100)}%`],
+      ['合計', total, '100%'],
+      ['', '', ''],
+      ['【Q2 保管配套偏好】', '票數（複選）', ''],
+      ['全天候封存', q2Count['全天候封存'], ''],
+      ['特定時段開放', q2Count['特定時段開放'], ''],
+      ['定點開放', q2Count['定點開放'], ''],
+      ['官方紀錄', q2Count['官方紀錄'], ''],
+    ];
+
+    const wb = XLSX.utils.book_new();
+    const ws1 = XLSX.utils.aoa_to_sheet(summaryData);
+    ws1['!cols'] = [{ wch: 22 }, { wch: 14 }, { wch: 8 }];
+    XLSX.utils.book_append_sheet(wb, ws1, '統計摘要');
+
+    const ws2 = XLSX.utils.aoa_to_sheet(wsData);
+    ws2['!cols'] = [{ wch: 6 }, { wch: 18 }, { wch: 14 }, { wch: 18 }, { wch: 12 }, { wch: 14 }, { wch: 10 }, { wch: 10 }, { wch: 30 }];
+    XLSX.utils.book_append_sheet(wb, ws2, '回覆明細');
+
+    const today = new Date();
+    const fname = `意願調查_${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}.xlsx`;
+    XLSX.writeFile(wb, fname);
+  };
+</script>
+</body>
+</html>
