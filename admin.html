@@ -356,11 +356,212 @@
   .timestamp { color: var(--muted); font-size: 12px; }
   .name-cell { font-weight: 500; }
 
+  /* Action buttons in table */
+  .action-btns { display: flex; gap: 6px; }
+  .btn-edit, .btn-delete {
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: none;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'Noto Sans TC', sans-serif;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .btn-edit {
+    background: rgba(212,168,83,0.15);
+    color: var(--accent);
+    border: 1px solid rgba(212,168,83,0.3);
+  }
+  .btn-edit:hover { background: rgba(212,168,83,0.28); }
+  .btn-delete {
+    background: rgba(224,92,68,0.12);
+    color: var(--red);
+    border: 1px solid rgba(224,92,68,0.3);
+  }
+  .btn-delete:hover { background: rgba(224,92,68,0.25); }
+
+  /* Modal overlay */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(4px);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    width: 100%;
+    max-width: 520px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+    animation: modalIn 0.25s cubic-bezier(0.34,1.4,0.64,1);
+  }
+  @keyframes modalIn {
+    from { transform: scale(0.92) translateY(10px); opacity: 0; }
+    to { transform: scale(1) translateY(0); opacity: 1; }
+  }
+  .modal-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 17px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .modal-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+  .form-group { margin-bottom: 18px; }
+  .form-group label {
+    display: block;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--muted);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 7px;
+  }
+  .form-group input[type="text"],
+  .form-group select {
+    width: 100%;
+    padding: 11px 14px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 14px;
+    font-family: 'Noto Sans TC', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-group input[type="text"]:focus,
+  .form-group select:focus { border-color: var(--accent); }
+  .form-group select option { background: var(--surface2); }
+  .checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  .checkbox-item:hover { border-color: var(--accent2); }
+  .checkbox-item input[type="checkbox"] {
+    accent-color: var(--accent2);
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+  }
+  .checkbox-item span { font-size: 13px; }
+  .modal-footer {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+  .btn-modal-cancel {
+    padding: 10px 20px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: 'Noto Sans TC', sans-serif;
+    transition: all 0.15s;
+  }
+  .btn-modal-cancel:hover { border-color: var(--text); color: var(--text); }
+  .btn-modal-save {
+    padding: 10px 24px;
+    background: var(--accent);
+    color: #1a0f00;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Noto Sans TC', sans-serif;
+    transition: opacity 0.15s;
+  }
+  .btn-modal-save:hover { opacity: 0.85; }
+
+  /* Delete confirm modal */
+  .delete-icon {
+    width: 52px;
+    height: 52px;
+    background: rgba(224,92,68,0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    margin-bottom: 16px;
+  }
+  .btn-modal-delete {
+    padding: 10px 24px;
+    background: var(--red);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Noto Sans TC', sans-serif;
+    transition: opacity 0.15s;
+  }
+  .btn-modal-delete:hover { opacity: 0.85; }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 18px;
+    font-size: 13px;
+    color: var(--text);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    z-index: 300;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transform: translateY(80px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.34,1.4,0.64,1);
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast.success { border-color: var(--accent2); }
+  .toast.error { border-color: var(--red); }
+
   @media(max-width: 600px) {
     .topbar { padding: 0 16px; }
     .topbar h1 { display: none; }
     .main-content { padding: 20px 16px; }
     .btn-refresh span { display: none; }
+    .modal-box { padding: 24px 18px; }
   }
 </style>
 </head>
@@ -444,10 +645,11 @@
               <th>稱呼</th>
               <th>Q1 手機交出意願</th>
               <th>Q2 保管配套（複選）</th>
+              <th>操作</th>
             </tr>
           </thead>
           <tbody id="tableBody">
-            <tr><td colspan="5" class="loading-state">載入中…</td></tr>
+            <tr><td colspan="6" class="loading-state">載入中…</td></tr>
           </tbody>
         </table>
       </div>
@@ -455,10 +657,73 @@
   </div>
 </div>
 
+<!-- Edit Modal -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal-box">
+    <div class="modal-title">✏️ 編輯回覆資料</div>
+    <div class="modal-sub" id="editModalSub"></div>
+    <div class="form-group">
+      <label>稱呼</label>
+      <input type="text" id="editName" placeholder="輸入稱呼">
+    </div>
+    <div class="form-group">
+      <label>Q1 手機交出意願（單選）</label>
+      <select id="editQ1">
+        <option value="全力支持">全力支持</option>
+        <option value="支持但有條件">支持，但有條件</option>
+        <option value="支持但有顧慮">支持，但有顧慮</option>
+        <option value="持保留態度">持保留態度</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Q2 手機保管配套（複選）</label>
+      <div class="checkbox-group">
+        <label class="checkbox-item">
+          <input type="checkbox" id="editQ2_1" value="全天候封存">
+          <span>全天候封存</span>
+        </label>
+        <label class="checkbox-item">
+          <input type="checkbox" id="editQ2_2" value="特定時段開放">
+          <span>特定時段開放</span>
+        </label>
+        <label class="checkbox-item">
+          <input type="checkbox" id="editQ2_3" value="定點開放">
+          <span>定點開放</span>
+        </label>
+        <label class="checkbox-item">
+          <input type="checkbox" id="editQ2_4" value="官方紀錄">
+          <span>官方紀錄</span>
+        </label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-modal-cancel" onclick="closeModal('editModal')">取消</button>
+      <button class="btn-modal-save" onclick="saveEdit()">儲存變更</button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirm Modal -->
+<div class="modal-overlay" id="deleteModal">
+  <div class="modal-box" style="max-width:400px; text-align:center">
+    <div class="delete-icon" style="margin: 0 auto 16px">🗑️</div>
+    <div class="modal-title" style="justify-content:center">確認刪除？</div>
+    <div class="modal-sub" id="deleteModalSub" style="margin-bottom:8px"></div>
+    <p style="font-size:13px; color:var(--muted); margin-bottom:0">此操作無法復原，該筆資料將從 Firebase 永久移除。</p>
+    <div class="modal-footer" style="justify-content:center">
+      <button class="btn-modal-cancel" onclick="closeModal('deleteModal')">取消</button>
+      <button class="btn-modal-delete" onclick="confirmDelete()">確認刪除</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
 <!-- Firebase -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+  import { getDatabase, ref, onValue, remove, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
   // ✅ 請將以下設定替換為您的 Firebase 專案設定
   const firebaseConfig = {
@@ -476,7 +741,10 @@
   const db = getDatabase(app);
 
   let allData = [];
+  let currentEditId = null;
+  let currentDeleteId = null;
 
+  // ── Login / Logout ──
   window.doLogin = function() {
     const pw = document.getElementById('passwordInput').value;
     if (pw === ADMIN_PASSWORD) {
@@ -488,19 +756,18 @@
       document.getElementById('passwordInput').value = '';
     }
   };
-
   document.getElementById('passwordInput').addEventListener('keydown', e => {
     if (e.key === 'Enter') window.doLogin();
   });
-
   window.doLogout = function() {
     document.getElementById('loginScreen').style.display = 'flex';
     document.getElementById('adminScreen').style.display = 'none';
     document.getElementById('passwordInput').value = '';
   };
 
+  // ── Load Data ──
   window.loadData = function() {
-    document.getElementById('tableBody').innerHTML = '<tr><td colspan="5" class="loading-state">載入資料中…</td></tr>';
+    document.getElementById('tableBody').innerHTML = '<tr><td colspan="6" class="loading-state">載入資料中…</td></tr>';
     onValue(ref(db, 'surveys'), snapshot => {
       const raw = snapshot.val();
       allData = raw ? Object.entries(raw).map(([id, v]) => ({ id, ...v })) : [];
@@ -515,18 +782,16 @@
     renderTable(data);
   }
 
+  // ── Stats ──
   function renderStats(data) {
     const total = data.length;
     const support = data.filter(d => d.q1 !== '持保留態度').length;
     const reserve = data.filter(d => d.q1 === '持保留態度').length;
-
-    // Count Q2
     const q2Count = {};
     data.forEach(d => {
       if (d.q2_array) d.q2_array.forEach(v => { q2Count[v] = (q2Count[v]||0)+1; });
     });
     const topQ2 = Object.entries(q2Count).sort((a,b) => b[1]-a[1])[0];
-
     document.getElementById('statTotal').textContent = total;
     document.getElementById('statSupport').textContent = support;
     document.getElementById('statReserve').textContent = reserve;
@@ -534,16 +799,14 @@
     document.getElementById('tableCount').textContent = `共 ${total} 筆`;
   }
 
+  // ── Charts ──
   function renderCharts(data) {
     const total = data.length || 1;
-
-    // Q1
     const q1Options = ['全力支持', '支持但有條件', '支持但有顧慮', '持保留態度'];
     const q1Count = {};
     q1Options.forEach(o => q1Count[o] = 0);
     data.forEach(d => { if (q1Count[d.q1] !== undefined) q1Count[d.q1]++; });
-
-    const q1Html = q1Options.map(opt => {
+    document.getElementById('q1Chart').innerHTML = q1Options.map(opt => {
       const cnt = q1Count[opt];
       const pct = Math.round(cnt / total * 100);
       return `<div class="bar-item">
@@ -551,17 +814,14 @@
         <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
       </div>`;
     }).join('');
-    document.getElementById('q1Chart').innerHTML = q1Html;
 
-    // Q2
     const q2Options = ['全天候封存', '特定時段開放', '定點開放', '官方紀錄'];
     const q2Count = {};
     q2Options.forEach(o => q2Count[o] = 0);
     data.forEach(d => {
       if (d.q2_array) d.q2_array.forEach(v => { if (q2Count[v] !== undefined) q2Count[v]++; });
     });
-
-    const q2Html = q2Options.map(opt => {
+    document.getElementById('q2Chart').innerHTML = q2Options.map(opt => {
       const cnt = q2Count[opt];
       const pct = Math.round(cnt / total * 100);
       return `<div class="bar-item">
@@ -569,18 +829,16 @@
         <div class="bar-track"><div class="bar-fill green" style="width:${pct}%"></div></div>
       </div>`;
     }).join('');
-    document.getElementById('q2Chart').innerHTML = q2Html;
   }
 
+  // ── Table ──
   function renderTable(data) {
     const tbody = document.getElementById('tableBody');
     if (data.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="5" class="empty-state">尚無回覆資料</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="6" class="empty-state">尚無回覆資料</td></tr>';
       return;
     }
-
     const badgeClass = { '全力支持': 'badge-support', '支持但有條件': 'badge-condition', '支持但有顧慮': 'badge-concern', '持保留態度': 'badge-reserve' };
-
     tbody.innerHTML = data.map((row, i) => {
       const dt = new Date(row.timestamp);
       const dateStr = `${dt.getFullYear()}/${String(dt.getMonth()+1).padStart(2,'0')}/${String(dt.getDate()).padStart(2,'0')}`;
@@ -595,26 +853,106 @@
         <td class="name-cell">${row.name || '匿名'}</td>
         <td><span class="badge ${cls}">${row.q1}</span></td>
         <td>${tags}</td>
+        <td>
+          <div class="action-btns">
+            <button class="btn-edit" onclick="openEdit('${row.id}')">✏️ 修改</button>
+            <button class="btn-delete" onclick="openDelete('${row.id}')">🗑️ 刪除</button>
+          </div>
+        </td>
       </tr>`;
     }).join('');
   }
 
+  // ── Edit ──
+  window.openEdit = function(id) {
+    const row = allData.find(d => d.id === id);
+    if (!row) return;
+    currentEditId = id;
+    document.getElementById('editName').value = row.name || '';
+    document.getElementById('editQ1').value = row.q1 || '全力支持';
+    const q2arr = row.q2_array || [];
+    ['editQ2_1','editQ2_2','editQ2_3','editQ2_4'].forEach(cbId => {
+      const el = document.getElementById(cbId);
+      el.checked = q2arr.includes(el.value);
+    });
+    const dt = new Date(row.timestamp);
+    document.getElementById('editModalSub').textContent =
+      `編輯 ${row.name || '匿名'} 於 ${dt.toLocaleString('zh-TW')} 的填答`;
+    document.getElementById('editModal').classList.add('show');
+  };
+
+  window.saveEdit = async function() {
+    if (!currentEditId) return;
+    const name = document.getElementById('editName').value.trim() || '匿名';
+    const q1 = document.getElementById('editQ1').value;
+    const q2_array = ['editQ2_1','editQ2_2','editQ2_3','editQ2_4']
+      .filter(id => document.getElementById(id).checked)
+      .map(id => document.getElementById(id).value);
+    const q2 = q2_array.length > 0 ? q2_array.join('、') : '（未選）';
+    try {
+      await update(ref(db, `surveys/${currentEditId}`), { name, q1, q2, q2_array });
+      closeModal('editModal');
+      showToast('✅ 資料已成功更新', 'success');
+      window.loadData();
+    } catch(e) {
+      showToast('❌ 更新失敗：' + e.message, 'error');
+    }
+  };
+
+  // ── Delete ──
+  window.openDelete = function(id) {
+    const row = allData.find(d => d.id === id);
+    if (!row) return;
+    currentDeleteId = id;
+    const dt = new Date(row.timestamp);
+    document.getElementById('deleteModalSub').textContent =
+      `「${row.name || '匿名'}」於 ${dt.toLocaleString('zh-TW')} 的填答`;
+    document.getElementById('deleteModal').classList.add('show');
+  };
+
+  window.confirmDelete = async function() {
+    if (!currentDeleteId) return;
+    try {
+      await remove(ref(db, `surveys/${currentDeleteId}`));
+      closeModal('deleteModal');
+      showToast('🗑️ 資料已刪除', 'success');
+      window.loadData();
+    } catch(e) {
+      showToast('❌ 刪除失敗：' + e.message, 'error');
+    }
+  };
+
+  // ── Modal helpers ──
+  window.closeModal = function(id) {
+    document.getElementById(id).classList.remove('show');
+  };
+  document.querySelectorAll('.modal-overlay').forEach(el => {
+    el.addEventListener('click', e => { if (e.target === el) el.classList.remove('show'); });
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') document.querySelectorAll('.modal-overlay.show').forEach(el => el.classList.remove('show'));
+  });
+
+  // ── Toast ──
+  function showToast(msg, type = 'success') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = `toast ${type} show`;
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  // ── Export Excel ──
   window.exportExcel = function() {
     if (allData.length === 0) { alert('目前沒有資料可以下載。'); return; }
-
     const wsData = [
       ['序號', '填答時間', '稱呼', 'Q1 手機交出意願', 'Q2 全天候封存', 'Q2 特定時段開放', 'Q2 定點開放', 'Q2 官方紀錄', 'Q2 所有選項']
     ];
-
     allData.slice().reverse().forEach((row, i) => {
       const dt = new Date(row.timestamp);
       const dateStr = `${dt.getFullYear()}/${String(dt.getMonth()+1).padStart(2,'0')}/${String(dt.getDate()).padStart(2,'0')} ${String(dt.getHours()).padStart(2,'0')}:${String(dt.getMinutes()).padStart(2,'0')}`;
       const q2arr = row.q2_array || [];
       wsData.push([
-        i + 1,
-        dateStr,
-        row.name || '匿名',
-        row.q1 || '',
+        i + 1, dateStr, row.name || '匿名', row.q1 || '',
         q2arr.includes('全天候封存') ? '✓' : '',
         q2arr.includes('特定時段開放') ? '✓' : '',
         q2arr.includes('定點開放') ? '✓' : '',
@@ -622,8 +960,6 @@
         row.q2 || ''
       ]);
     });
-
-    // Summary sheet
     const total = allData.length;
     const q1Count = { '全力支持': 0, '支持但有條件': 0, '支持但有顧慮': 0, '持保留態度': 0 };
     const q2Count = { '全天候封存': 0, '特定時段開放': 0, '定點開放': 0, '官方紀錄': 0 };
@@ -631,7 +967,6 @@
       if (q1Count[d.q1] !== undefined) q1Count[d.q1]++;
       (d.q2_array || []).forEach(v => { if (q2Count[v] !== undefined) q2Count[v]++; });
     });
-
     const summaryData = [
       ['雲科 × 湖山親子活動意願調查統計', '', ''],
       ['匯出時間', new Date().toLocaleString('zh-TW'), ''],
@@ -649,20 +984,19 @@
       ['定點開放', q2Count['定點開放'], ''],
       ['官方紀錄', q2Count['官方紀錄'], ''],
     ];
-
     const wb = XLSX.utils.book_new();
     const ws1 = XLSX.utils.aoa_to_sheet(summaryData);
     ws1['!cols'] = [{ wch: 22 }, { wch: 14 }, { wch: 8 }];
     XLSX.utils.book_append_sheet(wb, ws1, '統計摘要');
-
     const ws2 = XLSX.utils.aoa_to_sheet(wsData);
     ws2['!cols'] = [{ wch: 6 }, { wch: 18 }, { wch: 14 }, { wch: 18 }, { wch: 12 }, { wch: 14 }, { wch: 10 }, { wch: 10 }, { wch: 30 }];
     XLSX.utils.book_append_sheet(wb, ws2, '回覆明細');
-
     const today = new Date();
     const fname = `意願調查_${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}.xlsx`;
     XLSX.writeFile(wb, fname);
   };
+</script>
+
 </script>
 </body>
 </html>
