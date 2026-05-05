@@ -4,280 +4,567 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>家長意願調查｜雲科 × 湖山活動</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500;700;900&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink: #1a1008;
-    --paper: #faf6ef;
-    --warm: #c8955a;
-    --gold: #d4a853;
-    --moss: #5a7a52;
-    --red: #9e3b2a;
-    --light-brown: #e8d9c0;
-    --mid-brown: #b89b7a;
-    --shadow: rgba(26,16,8,0.12);
+    --ink:        #1c1208;
+    --ink-soft:   #3d2e1e;
+    --paper:      #f7f2e8;
+    --paper-warm: #efe8d8;
+    --gold:       #c8923a;
+    --gold-light: #e8b86a;
+    --gold-pale:  #f5e6c8;
+    --moss:       #4a6e42;
+    --moss-light: #7aaa70;
+    --moss-pale:  #d8ecd4;
+    --rust:       #8c3420;
+    --rust-light: #c05030;
+    --rust-pale:  #f5ddd8;
+    --mid:        #9a8468;
+    --light:      #d8c8ac;
+    --shadow-sm:  0 1px 4px rgba(28,18,8,0.08);
+    --shadow-md:  0 4px 20px rgba(28,18,8,0.10);
+    --shadow-lg:  0 12px 48px rgba(28,18,8,0.14);
   }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
   body {
     background: var(--paper);
     color: var(--ink);
     font-family: 'Noto Sans TC', sans-serif;
     min-height: 100vh;
-    background-image:
-      radial-gradient(ellipse at 20% 0%, rgba(200,149,90,0.08) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 100%, rgba(90,122,82,0.06) 0%, transparent 50%);
+    overflow-x: hidden;
+  }
+
+  /* ── Decorative background ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 10% -10%, rgba(200,146,58,0.10) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 90% 110%, rgba(74,110,66,0.09) 0%, transparent 55%),
+      radial-gradient(ellipse 50% 40% at 50% 50%, rgba(140,52,32,0.04) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* SVG ink wash top decoration */
+  .ink-deco {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 320px;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .ink-deco svg {
+    width: 100%;
+    height: 100%;
   }
 
   .page-wrap {
-    max-width: 720px;
+    max-width: 740px;
     margin: 0 auto;
-    padding: 40px 20px 80px;
+    padding: 0 20px 100px;
+    position: relative;
+    z-index: 1;
   }
 
-  /* Header */
-  .site-header {
+  /* ── HERO HEADER ── */
+  .hero {
     text-align: center;
-    padding: 50px 0 40px;
+    padding: 70px 0 52px;
     position: relative;
-  }
-  .site-header::before {
-    content: '';
-    display: block;
-    width: 60px;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-    margin: 0 auto 28px;
-  }
-  .event-tag {
-    display: inline-block;
-    font-size: 13.2px;
-    font-weight: 500;
-    letter-spacing: 4px;
-    color: var(--warm);
-    text-transform: uppercase;
-    margin-bottom: 16px;
-    border: 1px solid var(--light-brown);
-    padding: 5px 16px;
-    border-radius: 20px;
-  }
-  .site-header h1 {
-    font-family: 'Noto Serif TC', serif;
-    font-size: clamp(26.4px, 5vw, 38.4px);
-    font-weight: 700;
-    color: var(--ink);
-    line-height: 1.4;
-    margin-bottom: 8px;
-  }
-  .site-header h1 span {
-    color: var(--red);
-  }
-  .site-header::after {
-    content: '';
-    display: block;
-    width: 40px;
-    height: 2px;
-    background: var(--mid-brown);
-    margin: 24px auto 0;
   }
 
-  /* Intro card */
-  .intro-card {
-    background: white;
-    border-radius: 12px;
-    padding: 28px 32px;
-    margin-bottom: 32px;
-    border-left: 4px solid var(--moss);
-    box-shadow: 0 2px 16px var(--shadow);
-    position: relative;
-    overflow: hidden;
-  }
-  .intro-card::before {
-    content: '💬';
-    font-size: 57.6px;
+  /* Vertical strokes left/right */
+  .hero::before, .hero::after {
+    content: '';
     position: absolute;
-    right: 24px;
-    top: 16px;
-    opacity: 0.12;
+    top: 80px;
+    width: 1px;
+    height: 80px;
+    background: linear-gradient(to bottom, transparent, var(--gold), transparent);
   }
-  .intro-card .label {
+  .hero::before { left: 10%; }
+  .hero::after  { right: 10%; }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--paper-warm);
+    border: 1px solid var(--light);
+    border-radius: 100px;
+    padding: 6px 18px 6px 12px;
     font-size: 13.2px;
     font-weight: 500;
     letter-spacing: 3px;
-    color: var(--moss);
-    margin-bottom: 12px;
+    color: var(--gold);
+    margin-bottom: 22px;
+    box-shadow: var(--shadow-sm);
   }
-  .intro-card p {
-    font-size: 16.8px;
-    line-height: 1.9;
-    color: #4a3a2a;
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    flex-shrink: 0;
   }
 
-  /* Form card */
-  .form-card {
-    background: white;
-    border-radius: 12px;
-    padding: 32px;
-    margin-bottom: 24px;
-    box-shadow: 0 2px 16px var(--shadow);
+  .hero-title {
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 900;
+    font-size: clamp(34px, 7vw, 52px);
+    line-height: 1.2;
+    letter-spacing: -1px;
+    color: var(--ink);
+    margin-bottom: 0;
+    position: relative;
   }
-  .question-header {
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
-    margin-bottom: 24px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--light-brown);
+  .hero-title .accent {
+    color: var(--rust);
+    position: relative;
+    display: inline-block;
   }
-  .q-num {
-    width: 32px;
-    height: 32px;
-    background: var(--red);
-    color: white;
-    border-radius: 50%;
+
+
+  .hero-subtitle {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 15.6px;
-    font-weight: 700;
-    flex-shrink: 0;
-    margin-top: 2px;
+    gap: 12px;
+    margin-top: 20px;
+    font-size: 14.4px;
+    color: var(--mid);
+    letter-spacing: 2px;
   }
-  .q-num.multi { background: var(--moss); }
-  .question-title {
+  .hero-subtitle::before, .hero-subtitle::after {
+    content: '';
+    flex: 1;
+    max-width: 60px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--light));
+  }
+  .hero-subtitle::after {
+    background: linear-gradient(to left, transparent, var(--light));
+  }
+
+  /* ── INTRO CARD ── */
+  .intro-card {
+    background: white;
+    border-radius: 20px;
+    padding: 36px 40px;
+    margin-bottom: 36px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(216,200,172,0.5);
+  }
+
+  /* Left accent bar with gradient */
+  .intro-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 5px;
+    background: linear-gradient(to bottom, var(--moss), var(--gold), var(--rust));
+    border-radius: 20px 0 0 20px;
+  }
+
+  /* Large background character */
+  .intro-card::after {
+    content: '正念';
+    position: absolute;
+    right: -10px; bottom: -20px;
+    font-family: 'Noto Serif TC', serif;
+    font-size: 100px;
+    font-weight: 900;
+    color: var(--ink);
+    opacity: 0.03;
+    line-height: 1;
+    pointer-events: none;
+    letter-spacing: -5px;
+  }
+
+  .intro-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--moss);
+    margin-bottom: 14px;
+  }
+  .intro-label::before {
+    content: '';
+    width: 20px; height: 2px;
+    background: var(--moss);
+    border-radius: 1px;
+  }
+
+  .intro-text {
+    font-size: 16.8px;
+    line-height: 2;
+    color: var(--ink-soft);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── QUESTION CARDS ── */
+  .q-card {
+    background: white;
+    border-radius: 20px;
+    margin-bottom: 28px;
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(216,200,172,0.4);
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+  }
+  .q-card:focus-within {
+    box-shadow: var(--shadow-lg), 0 0 0 3px rgba(200,146,58,0.1);
+  }
+
+  /* Question card top strip */
+  .q-card-header {
+    background: linear-gradient(135deg, var(--paper-warm), var(--paper));
+    padding: 26px 32px 22px;
+    border-bottom: 1px solid var(--light);
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .q-num-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .q-num {
+    width: 38px; height: 38px;
+    background: var(--rust);
+    color: white;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16.8px;
+    font-weight: 700;
+    font-family: 'Noto Serif TC', serif;
+    box-shadow: 0 4px 12px rgba(140,52,32,0.3);
+  }
+  .q-num.multi {
+    background: var(--moss);
+    box-shadow: 0 4px 12px rgba(74,110,66,0.3);
+  }
+  .q-num-line {
+    width: 1px;
+    height: 20px;
+    background: linear-gradient(to bottom, var(--light), transparent);
+  }
+
+  .q-title-wrap { flex: 1; }
+  .q-title {
     font-family: 'Noto Serif TC', serif;
     font-size: 19.2px;
-    font-weight: 500;
+    font-weight: 700;
     line-height: 1.6;
     color: var(--ink);
   }
-  .question-note {
+  .q-note {
     font-size: 14.4px;
-    color: var(--mid-brown);
-    margin-top: 6px;
-    line-height: 1.6;
+    color: var(--mid);
+    margin-top: 8px;
+    line-height: 1.7;
+    padding: 10px 14px;
+    background: var(--paper);
+    border-radius: 8px;
+    border-left: 3px solid var(--gold-light);
   }
   .badge-multi {
     display: inline-block;
     background: var(--moss);
     color: white;
     font-size: 12px;
-    padding: 2px 8px;
-    border-radius: 10px;
-    margin-left: 6px;
+    padding: 2px 10px;
+    border-radius: 100px;
+    margin-left: 8px;
     vertical-align: middle;
-    font-weight: 500;
+    font-weight: 700;
+    letter-spacing: 1px;
   }
 
-  /* Options */
-  .options-list { display: flex; flex-direction: column; gap: 10px; }
+  /* ── OPTIONS ── */
+  .options-list {
+    padding: 20px 28px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
   .option-item {
     display: flex;
     align-items: flex-start;
-    gap: 12px;
-    padding: 14px 16px;
-    border: 1.5px solid var(--light-brown);
-    border-radius: 10px;
+    gap: 14px;
+    padding: 16px 20px;
+    border: 1.5px solid var(--light);
+    border-radius: 14px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
     position: relative;
-  }
-  .option-item:hover {
-    border-color: var(--warm);
-    background: #fdf8f2;
-  }
-  .option-item.selected {
-    border-color: var(--gold);
-    background: #fef9ef;
-    box-shadow: 0 0 0 3px rgba(212,168,83,0.12);
-  }
-  .option-item input[type="radio"],
-  .option-item input[type="checkbox"] {
-    margin-top: 2px;
-    width: 18px;
-    height: 18px;
-    accent-color: var(--gold);
-    flex-shrink: 0;
-    cursor: pointer;
-  }
-  .option-label {
-    font-size: 16.8px;
-    line-height: 1.7;
-    color: #3a2a1a;
-  }
-  .option-label strong {
-    color: var(--red);
-    font-weight: 500;
-  }
-  .option-label .option-desc {
-    display: block;
-    font-size: 14.4px;
-    color: var(--mid-brown);
-    margin-top: 3px;
-  }
-
-  /* Name field */
-  .name-card {
-    background: white;
-    border-radius: 12px;
-    padding: 28px 32px;
-    margin-bottom: 24px;
-    box-shadow: 0 2px 16px var(--shadow);
-  }
-  .name-card label {
-    display: block;
-    font-size: 15.6px;
-    font-weight: 500;
-    color: var(--ink);
-    margin-bottom: 10px;
-  }
-  .name-card label span { color: var(--red); }
-  .name-card input {
-    width: 100%;
-    padding: 12px 16px;
-    border: 1.5px solid var(--light-brown);
-    border-radius: 8px;
-    font-size: 16.8px;
-    font-family: 'Noto Sans TC', sans-serif;
-    color: var(--ink);
-    background: #fdfaf6;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  .name-card input:focus { border-color: var(--gold); }
-  .name-card .optional-note {
-    font-size: 13.2px;
-    color: var(--mid-brown);
-    margin-top: 6px;
-  }
-
-  /* Submit */
-  .submit-wrap { text-align: center; padding: 10px 0; }
-  .submit-btn {
-    background: linear-gradient(135deg, var(--red), #7a2a1a);
-    color: white;
-    border: none;
-    padding: 16px 56px;
-    border-radius: 50px;
-    font-size: 19.2px;
-    font-family: 'Noto Serif TC', serif;
-    font-weight: 500;
-    letter-spacing: 2px;
-    cursor: pointer;
-    box-shadow: 0 4px 20px rgba(158,59,42,0.35);
-    transition: all 0.3s ease;
-    position: relative;
+    background: var(--paper);
     overflow: hidden;
   }
-  .submit-btn::before {
+
+  /* Hover shimmer */
+  .option-item::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
-    border-radius: 50px;
+    background: linear-gradient(135deg, rgba(200,146,58,0.06) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.25s;
+    border-radius: 13px;
   }
+  .option-item:hover::before { opacity: 1; }
+  .option-item:hover {
+    border-color: var(--gold-light);
+    transform: translateX(4px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .option-item.selected {
+    border-color: var(--gold);
+    background: linear-gradient(135deg, #fffbf2, #fff8ea);
+    transform: translateX(4px);
+    box-shadow: 0 2px 12px rgba(200,146,58,0.18), inset 0 0 0 1px rgba(200,146,58,0.2);
+  }
+  .option-item.selected::before { opacity: 0; }
+
+  /* Hide native input, show custom marker */
+  .option-item input[type="radio"],
+  .option-item input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0; height: 0;
+  }
+
+  .custom-mark {
+    width: 22px; height: 22px;
+    border: 2px solid var(--light);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 1px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+  }
+  .option-item input[type="checkbox"] ~ .custom-mark {
+    border-radius: 6px;
+  }
+  .custom-mark::after {
+    content: '';
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--gold);
+    opacity: 0;
+    transform: scale(0);
+    transition: all 0.2s cubic-bezier(0.34,1.4,0.64,1);
+  }
+  .option-item input[type="checkbox"] ~ .custom-mark::after {
+    border-radius: 3px;
+    background: var(--moss);
+  }
+  .option-item.selected .custom-mark {
+    border-color: var(--gold);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(200,146,58,0.15);
+  }
+  .option-item.selected input[type="checkbox"] ~ .custom-mark {
+    border-color: var(--moss);
+    box-shadow: 0 0 0 3px rgba(74,110,66,0.15);
+  }
+  .option-item.selected .custom-mark::after {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .option-label {
+    flex: 1;
+    position: relative;
+    z-index: 1;
+  }
+  .option-main {
+    font-size: 16.8px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.5;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .option-item.selected .option-main { color: var(--rust); }
+  .option-item.selected input[type="checkbox"] ~ .custom-mark + .option-label .option-main {
+    color: var(--moss);
+  }
+  .option-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .option-desc {
+    display: block;
+    font-size: 14.4px;
+    color: var(--mid);
+    margin-top: 4px;
+    line-height: 1.7;
+  }
+
+  /* ── DIVIDER ── */
+  .q-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 4px 0 28px;
+    padding: 0 4px;
+  }
+  .q-divider::before, .q-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--light), transparent);
+  }
+  .q-divider::after {
+    background: linear-gradient(to left, var(--light), transparent);
+  }
+  .q-divider-label {
+    font-size: 13.2px;
+    color: var(--mid);
+    letter-spacing: 3px;
+    white-space: nowrap;
+    font-family: 'Noto Serif TC', serif;
+  }
+
+  /* ── NAME CARD ── */
+  .name-card {
+    background: white;
+    border-radius: 20px;
+    padding: 30px 32px;
+    margin-bottom: 28px;
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(216,200,172,0.4);
+  }
+  .name-label {
+    display: block;
+    font-size: 13.2px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 12px;
+  }
+  .name-input-wrap {
+    position: relative;
+  }
+  .name-input-wrap::before {
+    content: '✦';
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gold-light);
+    font-size: 14.4px;
+    pointer-events: none;
+  }
+  .name-input {
+    width: 100%;
+    padding: 14px 16px 14px 40px;
+    border: 1.5px solid var(--light);
+    border-radius: 12px;
+    font-size: 16.8px;
+    font-family: 'Noto Sans TC', sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    outline: none;
+    transition: all 0.2s;
+  }
+  .name-input:focus {
+    border-color: var(--gold);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(200,146,58,0.12);
+  }
+  .name-input::placeholder { color: var(--light); }
+  .name-note {
+    font-size: 13.2px;
+    color: var(--mid);
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .name-note::before {
+    content: '';
+    width: 16px; height: 1px;
+    background: var(--light);
+    flex-shrink: 0;
+  }
+
+  /* ── ERROR ── */
+  .error-msg {
+    display: none;
+    background: var(--rust-pale);
+    border: 1.5px solid rgba(192,80,48,0.25);
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-size: 15.6px;
+    color: var(--rust-light);
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 500;
+  }
+  .error-msg.show { display: block; }
+
+  /* ── SUBMIT ── */
+  .submit-wrap { text-align: center; padding: 12px 0; }
+  .submit-btn {
+    position: relative;
+    display: inline-block;
+    background: linear-gradient(135deg, var(--rust), var(--rust-light));
+    color: white;
+    border: none;
+    padding: 18px 64px;
+    border-radius: 100px;
+    font-size: 19.2px;
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 700;
+    letter-spacing: 3px;
+    cursor: pointer;
+    box-shadow: 0 6px 28px rgba(140,52,32,0.38), 0 2px 8px rgba(140,52,32,0.2);
+    transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+    overflow: hidden;
+  }
+  /* Sheen animation */
+  .submit-btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 60%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+    transform: skewX(-20deg);
+    transition: left 0.5s;
+  }
+  .submit-btn:hover::before { left: 150%; }
   .submit-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 28px rgba(158,59,42,0.45);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 36px rgba(140,52,32,0.45), 0 4px 12px rgba(140,52,32,0.2);
   }
   .submit-btn:active { transform: translateY(0); }
   .submit-btn:disabled {
@@ -287,17 +574,35 @@
   }
   .submit-note {
     font-size: 14.4px;
-    color: var(--mid-brown);
-    margin-top: 12px;
+    color: var(--mid);
+    margin-top: 14px;
+    letter-spacing: 1px;
   }
 
-  /* Success */
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 48px 0 24px;
+    font-size: 13.2px;
+    color: var(--light);
+    letter-spacing: 2px;
+    position: relative;
+  }
+  footer::before {
+    content: '';
+    display: block;
+    width: 48px; height: 1px;
+    background: linear-gradient(to right, transparent, var(--light), transparent);
+    margin: 0 auto 20px;
+  }
+
+  /* ── SUCCESS OVERLAY ── */
   .success-overlay {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(26,16,8,0.6);
-    backdrop-filter: blur(4px);
+    background: rgba(28,18,8,0.65);
+    backdrop-filter: blur(8px);
     z-index: 100;
     align-items: center;
     justify-content: center;
@@ -306,208 +611,217 @@
   .success-overlay.show { display: flex; }
   .success-box {
     background: white;
-    border-radius: 20px;
-    padding: 48px 40px;
+    border-radius: 28px;
+    padding: 56px 48px;
     text-align: center;
-    max-width: 380px;
+    max-width: 400px;
     width: 100%;
-    box-shadow: 0 20px 60px rgba(26,16,8,0.3);
-    animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    box-shadow: 0 32px 80px rgba(28,18,8,0.4);
+    animation: successPop 0.5s cubic-bezier(0.34,1.56,0.64,1);
+    position: relative;
+    overflow: hidden;
   }
-  @keyframes popIn {
-    from { transform: scale(0.8); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
+  .success-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--moss), var(--gold), var(--rust));
+  }
+  @keyframes successPop {
+    from { transform: scale(0.75) translateY(20px); opacity: 0; }
+    to   { transform: scale(1) translateY(0); opacity: 1; }
   }
   .success-icon {
-    width: 72px;
-    height: 72px;
-    background: linear-gradient(135deg, var(--moss), #3a5a32);
+    width: 80px; height: 80px;
+    background: linear-gradient(135deg, var(--moss), #2d5228);
     border-radius: 50%;
-    margin: 0 auto 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 38.4px;
+    margin: 0 auto 24px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 36px;
+    box-shadow: 0 8px 28px rgba(74,110,66,0.35);
   }
   .success-box h2 {
     font-family: 'Noto Serif TC', serif;
     font-size: 26.4px;
+    font-weight: 700;
     color: var(--ink);
-    margin-bottom: 12px;
+    margin-bottom: 14px;
   }
   .success-box p {
     font-size: 16.8px;
-    color: var(--mid-brown);
-    line-height: 1.7;
+    color: var(--mid);
+    line-height: 1.8;
   }
 
-  /* Error msg */
-  .error-msg {
-    display: none;
-    background: #fff3f0;
-    border: 1px solid #f5c0b0;
-    border-radius: 8px;
-    padding: 12px 16px;
-    font-size: 15.6px;
-    color: var(--red);
-    margin-bottom: 20px;
-    text-align: center;
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
-  .error-msg.show { display: block; }
+  .hero        { animation: fadeUp 0.7s ease both; }
+  .intro-card  { animation: fadeUp 0.7s 0.1s ease both; }
+  .q-card:nth-of-type(1) { animation: fadeUp 0.7s 0.2s ease both; }
+  .q-divider   { animation: fadeUp 0.7s 0.28s ease both; }
+  .q-card:nth-of-type(3) { animation: fadeUp 0.7s 0.32s ease both; }
+  .name-card   { animation: fadeUp 0.7s 0.38s ease both; }
+  .submit-wrap { animation: fadeUp 0.7s 0.44s ease both; }
 
-  /* Divider */
-  .section-divider {
-    text-align: center;
-    margin: 8px 0 24px;
-    position: relative;
-  }
-  .section-divider::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 0; right: 0;
-    height: 1px;
-    background: var(--light-brown);
-  }
-  .section-divider span {
-    position: relative;
-    background: var(--paper);
-    padding: 0 12px;
-    font-size: 13.2px;
-    color: var(--mid-brown);
-    letter-spacing: 2px;
-  }
-
-  footer {
-    text-align: center;
-    padding: 40px 0 20px;
-    font-size: 13.2px;
-    color: var(--mid-brown);
-    letter-spacing: 1px;
+  /* ── RESPONSIVE ── */
+  @media (max-width: 520px) {
+    .q-card-header { padding: 20px 20px 18px; gap: 12px; }
+    .options-list  { padding: 16px 16px 20px; gap: 10px; }
+    .option-item   { padding: 14px 16px; }
+    .intro-card    { padding: 28px 24px; }
+    .name-card     { padding: 24px 20px; }
+    .submit-btn    { padding: 16px 48px; letter-spacing: 2px; }
+    .hero::before, .hero::after { display: none; }
   }
 </style>
 </head>
 <body>
 
 <div class="page-wrap">
-  <header class="site-header">
-    <div class="event-tag">雲科 × 湖山 親子活動</div>
-    <h1>重要<span>意願調查</span></h1>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-badge">雲科 × 湖山 親子活動</div>
+    <h1 class="hero-title">重要<span class="accent">意願調查</span></h1>
+    <div class="hero-subtitle">請每位家長填寫一次</div>
   </header>
 
+  <!-- INTRO -->
   <div class="intro-card">
-    <div class="label">📋 前言說明</div>
-    <p>近期有察覺雲科及湖山齋僧近二次的活動，孩子於活動中使用 3C 的狀況增加，有個人使用也有群聚。希望可以大家可以投票表達意見，大家一起改善班級活動氣氛，落實真正的親子互動。</p>
+    <div class="intro-label">前言說明</div>
+    <p class="intro-text">近期有察覺雲科及湖山齋僧近二次的活動，孩子於活動中使用 3C 的狀況增加，有個人使用也有群聚。希望可以大家可以投票表達意見，大家一起改善班級活動氣氛，落實真正的<strong>親子互動</strong>。</p>
   </div>
 
   <form id="surveyForm">
 
     <!-- Q1 -->
-    <div class="form-card">
-      <div class="question-header">
-        <div class="q-num">1</div>
-        <div>
-          <div class="question-title">若下次活動，您是否支持「參與家長」也共同交出手機由專人保管？</div>
-          <div class="question-note">說明：由工作人員統一保管，共同營造「專注當下」的氛圍，大人小孩以身作則。</div>
+    <div class="q-card">
+      <div class="q-card-header">
+        <div class="q-num-wrap">
+          <div class="q-num">1</div>
+          <div class="q-num-line"></div>
+        </div>
+        <div class="q-title-wrap">
+          <div class="q-title">若下次活動，您是否支持「參與家長」也共同交出手機由專人保管？</div>
+          <div class="q-note">由工作人員統一保管，共同營造「專注當下」的氛圍，大人小孩以身作則。</div>
         </div>
       </div>
       <div class="options-list">
-        <label class="option-item" id="q1-opt1">
+        <label class="option-item">
           <input type="radio" name="q1" value="全力支持" required>
+          <div class="custom-mark"></div>
           <div class="option-label">
-            <strong> 全力支持</strong>
+            <div class="option-main"><span class="option-icon">🙌</span>全力支持</div>
             <span class="option-desc">我願意與孩子一起放下手機，全程投入實體互動。</span>
           </div>
         </label>
-        <label class="option-item" id="q1-opt2">
+        <label class="option-item">
           <input type="radio" name="q1" value="支持但有條件">
+          <div class="custom-mark"></div>
           <div class="option-label">
-            <strong> 支持，但有條件</strong>
+            <div class="option-main"><span class="option-icon">💬</span>支持，但有條件</div>
             <span class="option-desc">需安排「通訊時段」處理必要訊息或報平安。</span>
           </div>
         </label>
-        <label class="option-item" id="q1-opt3">
+        <label class="option-item">
           <input type="radio" name="q1" value="支持但有顧慮">
+          <div class="custom-mark"></div>
           <div class="option-label">
-            <strong> 支持，但有顧慮</strong>
+            <div class="option-main"><span class="option-icon">🔔</span>支持，但有顧慮</div>
             <span class="option-desc">若有緊急聯繫窗口（如領隊電話）才敢交出手機。</span>
           </div>
         </label>
-        <label class="option-item" id="q1-opt4">
+        <label class="option-item">
           <input type="radio" name="q1" value="持保留態度">
+          <div class="custom-mark"></div>
           <div class="option-label">
-            <strong> 持保留態度</strong>
+            <div class="option-main"><span class="option-icon">🤔</span>持保留態度</div>
             <span class="option-desc">仍傾向自行保管，但保證不影響活動進行。</span>
           </div>
         </label>
       </div>
     </div>
 
-    <div class="section-divider"><span>第二題</span></div>
+    <div class="q-divider">
+      <span class="q-divider-label">第 二 題</span>
+    </div>
 
     <!-- Q2 -->
-    <div class="form-card">
-      <div class="question-header">
-        <div class="q-num multi">2</div>
-        <div>
-          <div class="question-title">
+    <div class="q-card">
+      <div class="q-card-header">
+        <div class="q-num-wrap">
+          <div class="q-num multi">2</div>
+          <div class="q-num-line"></div>
+        </div>
+        <div class="q-title-wrap">
+          <div class="q-title">
             關於「手機保管箱」的實施方式，您較能接受哪種配套？
             <span class="badge-multi">複選</span>
           </div>
-          <div class="question-note">可勾選多項您認可的方式。</div>
+          <div class="q-note">可勾選多項您認可的方式。</div>
         </div>
       </div>
       <div class="options-list">
-        <label class="option-item" id="q2-opt1">
+        <label class="option-item">
           <input type="checkbox" name="q2" value="全天候封存">
+          <div class="custom-mark"></div>
           <div class="option-label">
-            <strong> 全天候封存</strong>
+            <div class="option-main"><span class="option-icon">📵</span>全天候封存</div>
             <span class="option-desc">全程不使用，感受完全的「數位排毒」。</span>
           </div>
         </label>
-        <label class="option-item" id="q2-opt2">
+        <label class="option-item">
           <input type="checkbox" name="q2" value="特定時段開放">
+          <div class="custom-mark"></div>
           <div class="option-label">
-            <strong> 特定時段開放</strong>
+            <div class="option-main"><span class="option-icon">🕐</span>特定時段開放</div>
             <span class="option-desc">僅在往返大巴車程中或午休時間開放。</span>
           </div>
         </label>
-        <label class="option-item" id="q2-opt3">
+        <label class="option-item">
           <input type="checkbox" name="q2" value="定點開放">
+          <div class="custom-mark"></div>
           <div class="option-label">
-            <strong> 定點開放</strong>
+            <div class="option-main"><span class="option-icon">📸</span>定點開放</div>
             <span class="option-desc">僅在特定的「風景拍照時間」領回手機，拍完即歸還。</span>
           </div>
         </label>
-        <label class="option-item" id="q2-opt4">
+        <label class="option-item">
           <input type="checkbox" name="q2" value="官方紀錄">
+          <div class="custom-mark"></div>
           <div class="option-label">
-            <strong> 官方紀錄</strong>
-            <span class="option-desc">只要有專人/志工負責全程攝影與分享照片，我就願意放下手機。</span>
+            <div class="option-main"><span class="option-icon">🎥</span>官方紀錄</div>
+            <span class="option-desc">只要有專人／志工負責全程攝影與分享照片，我就願意放下手機。</span>
           </div>
         </label>
       </div>
     </div>
 
-    <!-- Name -->
+    <!-- NAME -->
     <div class="name-card">
-      <label>稱呼（選填）<span>（可留名或匿名）</span></label>
-      <input type="text" id="responderName" placeholder="例：王小明家長 / 匿名">
-      <div class="optional-note">✦ 您的填答資料將安全保存，僅供統計參考。</div>
+      <label class="name-label">稱呼（選填）</label>
+      <div class="name-input-wrap">
+        <input class="name-input" type="text" id="responderName" placeholder="例：王小明家長 ／ 匿名填寫">
+      </div>
+      <div class="name-note">您的填答資料將安全保存，僅供統計參考。</div>
     </div>
 
-    <div class="error-msg" id="errorMsg">請完成第一題的選擇再送出。</div>
+    <div class="error-msg" id="errorMsg">⚠️ 請完成第一題的選擇再送出。</div>
 
     <div class="submit-wrap">
       <button type="submit" class="submit-btn" id="submitBtn">送出意願調查</button>
-      <div class="submit-note">每位家長請填寫一次，感謝您的參與 🙏</div>
+      <div class="submit-note">感謝您撥冗填寫 🙏</div>
     </div>
   </form>
 
   <footer>雲科 × 湖山親子活動小組 © 2025</footer>
 </div>
 
-<!-- Success -->
+<!-- SUCCESS -->
 <div class="success-overlay" id="successOverlay">
   <div class="success-box">
     <div class="success-icon">✓</div>
@@ -521,7 +835,6 @@
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
-  // ✅ 請將以下設定替換為您的 Firebase 專案設定
   const firebaseConfig = {
     apiKey: "AIzaSyA4pcwGPb6PRKU2Cpsqo6S0zAefY-KjyBM",
     authDomain: "mobile01-55a64.firebaseapp.com",
@@ -535,16 +848,21 @@
   const app = initializeApp(firebaseConfig);
   const db = getDatabase(app);
 
-  // Highlight selected options
-  document.querySelectorAll('.option-item input').forEach(input => {
+  // Custom mark interaction
+  document.querySelectorAll('.option-item').forEach(item => {
+    const input = item.querySelector('input');
     input.addEventListener('change', () => {
       if (input.type === 'radio') {
         document.querySelectorAll(`input[name="${input.name}"]`).forEach(r => {
           r.closest('.option-item').classList.remove('selected');
         });
       }
-      if (input.checked) input.closest('.option-item').classList.add('selected');
-      else input.closest('.option-item').classList.remove('selected');
+      if (input.checked) item.classList.add('selected');
+      else item.classList.remove('selected');
+    });
+    // Click whole card
+    item.addEventListener('click', () => {
+      input.click();
     });
   });
 
@@ -554,10 +872,7 @@
     errorMsg.classList.remove('show');
 
     const q1 = document.querySelector('input[name="q1"]:checked');
-    if (!q1) {
-      errorMsg.classList.add('show');
-      return;
-    }
+    if (!q1) { errorMsg.classList.add('show'); return; }
 
     const q2 = [...document.querySelectorAll('input[name="q2"]:checked')].map(c => c.value);
     const name = document.getElementById('responderName').value.trim() || '匿名';
@@ -580,7 +895,7 @@
       console.error(err);
       btn.disabled = false;
       btn.textContent = '送出意願調查';
-      errorMsg.textContent = '送出失敗，請稍後再試。（' + err.message + '）';
+      errorMsg.textContent = '⚠️ 送出失敗，請稍後再試。（' + err.message + '）';
       errorMsg.classList.add('show');
     }
   });
