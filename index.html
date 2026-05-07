@@ -37,7 +37,6 @@
     overflow-x: hidden;
   }
 
-  /* ── Decorative background ── */
   body::before {
     content: '';
     position: fixed;
@@ -50,7 +49,6 @@
     z-index: 0;
   }
 
-  /* SVG ink wash top decoration */
   .ink-deco {
     position: absolute;
     top: 0; left: 0; right: 0;
@@ -59,10 +57,7 @@
     pointer-events: none;
     z-index: 0;
   }
-  .ink-deco svg {
-    width: 100%;
-    height: 100%;
-  }
+  .ink-deco svg { width: 100%; height: 100%; }
 
   .page-wrap {
     max-width: 740px;
@@ -72,14 +67,11 @@
     z-index: 1;
   }
 
-  /* ── HERO HEADER ── */
   .hero {
     text-align: center;
     padding: 70px 0 52px;
     position: relative;
   }
-
-  /* Vertical strokes left/right */
   .hero::before, .hero::after {
     content: '';
     position: absolute;
@@ -130,7 +122,6 @@
     display: inline-block;
   }
 
-
   .hero-subtitle {
     display: flex;
     align-items: center;
@@ -152,7 +143,6 @@
     background: linear-gradient(to left, transparent, var(--light));
   }
 
-  /* ── INTRO CARD ── */
   .intro-card {
     background: white;
     border-radius: 20px;
@@ -163,8 +153,6 @@
     box-shadow: var(--shadow-md);
     border: 1px solid rgba(216,200,172,0.5);
   }
-
-  /* Left accent bar with gradient */
   .intro-card::before {
     content: '';
     position: absolute;
@@ -173,8 +161,6 @@
     background: linear-gradient(to bottom, var(--moss), var(--gold), var(--rust));
     border-radius: 20px 0 0 20px;
   }
-
-  /* Large background character */
   .intro-card::after {
     content: '正念';
     position: absolute;
@@ -214,7 +200,6 @@
     z-index: 1;
   }
 
-  /* ── QUESTION CARDS ── */
   .q-card {
     background: white;
     border-radius: 20px;
@@ -228,7 +213,6 @@
     box-shadow: var(--shadow-lg), 0 0 0 3px rgba(200,146,58,0.1);
   }
 
-  /* Question card top strip */
   .q-card-header {
     background: linear-gradient(135deg, var(--paper-warm), var(--paper));
     padding: 26px 32px 22px;
@@ -300,7 +284,6 @@
     letter-spacing: 1px;
   }
 
-  /* ── OPTIONS ── */
   .options-list {
     padding: 20px 28px 28px;
     display: flex;
@@ -321,8 +304,6 @@
     background: var(--paper);
     overflow: hidden;
   }
-
-  /* Hover shimmer */
   .option-item::before {
     content: '';
     position: absolute;
@@ -338,7 +319,6 @@
     transform: translateX(4px);
     box-shadow: var(--shadow-sm);
   }
-
   .option-item.selected {
     border-color: var(--gold);
     background: linear-gradient(135deg, #fffbf2, #fff8ea);
@@ -347,7 +327,6 @@
   }
   .option-item.selected::before { opacity: 0; }
 
-  /* Hide native input, show custom marker */
   .option-item input[type="radio"],
   .option-item input[type="checkbox"] {
     position: absolute;
@@ -367,9 +346,7 @@
     justify-content: center;
     background: white;
   }
-  .option-item input[type="checkbox"] ~ .custom-mark {
-    border-radius: 6px;
-  }
+  .option-item input[type="checkbox"] ~ .custom-mark { border-radius: 6px; }
   .custom-mark::after {
     content: '';
     width: 10px; height: 10px;
@@ -392,16 +369,9 @@
     border-color: var(--moss);
     box-shadow: 0 0 0 3px rgba(74,110,66,0.15);
   }
-  .option-item.selected .custom-mark::after {
-    opacity: 1;
-    transform: scale(1);
-  }
+  .option-item.selected .custom-mark::after { opacity: 1; transform: scale(1); }
 
-  .option-label {
-    flex: 1;
-    position: relative;
-    z-index: 1;
-  }
+  .option-label { flex: 1; position: relative; z-index: 1; }
   .option-main {
     font-size: 16.8px;
     font-weight: 600;
@@ -412,13 +382,8 @@
     gap: 8px;
   }
   .option-item.selected .option-main { color: var(--rust); }
-  .option-item.selected input[type="checkbox"] ~ .custom-mark + .option-label .option-main {
-    color: var(--moss);
-  }
-  .option-icon {
-    font-size: 18px;
-    flex-shrink: 0;
-  }
+  .option-item.selected input[type="checkbox"] ~ .custom-mark + .option-label .option-main { color: var(--moss); }
+  .option-icon { font-size: 18px; flex-shrink: 0; }
   .option-desc {
     display: block;
     font-size: 14.4px;
@@ -427,7 +392,6 @@
     line-height: 1.7;
   }
 
-  /* ── DIVIDER ── */
   .q-divider {
     display: flex;
     align-items: center;
@@ -441,9 +405,7 @@
     height: 1px;
     background: linear-gradient(to right, var(--light), transparent);
   }
-  .q-divider::after {
-    background: linear-gradient(to left, var(--light), transparent);
-  }
+  .q-divider::after { background: linear-gradient(to left, var(--light), transparent); }
   .q-divider-label {
     font-size: 13.2px;
     color: var(--mid);
@@ -452,7 +414,6 @@
     font-family: 'Noto Serif TC', serif;
   }
 
-  /* ── NAME CARD ── */
   .name-card {
     background: white;
     border-radius: 20px;
@@ -470,9 +431,7 @@
     color: var(--mid);
     margin-bottom: 12px;
   }
-  .name-input-wrap {
-    position: relative;
-  }
+  .name-input-wrap { position: relative; }
   .name-input-wrap::before {
     content: '✦';
     position: absolute;
@@ -516,7 +475,43 @@
     flex-shrink: 0;
   }
 
-  /* ── ERROR ── */
+  /* ── DEADLINE BANNER ── */
+  .deadline-banner {
+    background: linear-gradient(135deg, #fffbf0, #fff8e8);
+    border: 1.5px solid var(--gold-light);
+    border-radius: 14px;
+    padding: 14px 20px;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px;
+    color: var(--ink-soft);
+    box-shadow: var(--shadow-sm);
+  }
+  .deadline-banner .dl-icon { font-size: 20px; flex-shrink: 0; }
+  .deadline-banner strong { color: var(--rust); }
+
+  /* ── DEADLINE EXPIRED ── */
+  .expired-overlay {
+    background: var(--rust-pale);
+    border: 2px solid rgba(192,80,48,0.3);
+    border-radius: 20px;
+    padding: 40px 36px;
+    text-align: center;
+    margin-bottom: 28px;
+    box-shadow: var(--shadow-md);
+  }
+  .expired-overlay .exp-icon { font-size: 48px; margin-bottom: 16px; }
+  .expired-overlay h3 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--rust);
+    margin-bottom: 10px;
+  }
+  .expired-overlay p { font-size: 15.6px; color: var(--ink-soft); line-height: 1.8; }
+
   .error-msg {
     display: none;
     background: var(--rust-pale);
@@ -531,7 +526,6 @@
   }
   .error-msg.show { display: block; }
 
-  /* ── SUBMIT ── */
   .submit-wrap { text-align: center; padding: 12px 0; }
   .submit-btn {
     position: relative;
@@ -550,7 +544,6 @@
     transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
     overflow: hidden;
   }
-  /* Sheen animation */
   .submit-btn::before {
     content: '';
     position: absolute;
@@ -566,19 +559,9 @@
     box-shadow: 0 12px 36px rgba(140,52,32,0.45), 0 4px 12px rgba(140,52,32,0.2);
   }
   .submit-btn:active { transform: translateY(0); }
-  .submit-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none;
-  }
-  .submit-note {
-    font-size: 14.4px;
-    color: var(--mid);
-    margin-top: 14px;
-    letter-spacing: 1px;
-  }
+  .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  .submit-note { font-size: 14.4px; color: var(--mid); margin-top: 14px; letter-spacing: 1px; }
 
-  /* ── FOOTER ── */
   footer {
     text-align: center;
     padding: 48px 0 24px;
@@ -595,7 +578,6 @@
     margin: 0 auto 20px;
   }
 
-  /* ── SUCCESS OVERLAY ── */
   .success-overlay {
     display: none;
     position: fixed;
@@ -647,13 +629,8 @@
     color: var(--ink);
     margin-bottom: 14px;
   }
-  .success-box p {
-    font-size: 16.8px;
-    color: var(--mid);
-    line-height: 1.8;
-  }
+  .success-box p { font-size: 16.8px; color: var(--mid); line-height: 1.8; }
 
-  /* ── ANIMATIONS ── */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(24px); }
     to   { opacity: 1; transform: translateY(0); }
@@ -666,7 +643,6 @@
   .name-card   { animation: fadeUp 0.7s 0.38s ease both; }
   .submit-wrap { animation: fadeUp 0.7s 0.44s ease both; }
 
-  /* ── RESPONSIVE ── */
   @media (max-width: 520px) {
     .q-card-header { padding: 20px 20px 18px; gap: 12px; }
     .options-list  { padding: 16px 16px 20px; gap: 10px; }
@@ -682,22 +658,32 @@
 
 <div class="page-wrap">
 
-  <!-- HERO -->
   <header class="hero">
     <div class="hero-badge">雲科 × 湖山 親子活動</div>
     <h1 class="hero-title">重要<span class="accent">意願調查</span></h1>
     <div class="hero-subtitle">請每位家長填寫一次</div>
   </header>
 
-  <!-- INTRO -->
   <div class="intro-card">
     <div class="intro-label">前言說明</div>
     <p class="intro-text">近期有察覺雲科及湖山齋僧近二次的活動，孩子於活動中使用 3C 的狀況增加，有個人使用也有群聚。希望可以大家可以投票表達意見，大家一起改善班級活動氣氛，落實真正的<strong>親子互動</strong>。</p>
   </div>
 
+  <!-- 截止時間提示 -->
+  <div class="deadline-banner" id="deadlineBanner">
+    <span class="dl-icon">⏰</span>
+    <span>填表截止時間：<strong>2026 年 5 月 7 日（週三）下午 4:10</strong>，請把握時間填寫！</span>
+  </div>
+
+  <!-- 截止後顯示（預設隱藏） -->
+  <div class="expired-overlay" id="expiredOverlay" style="display:none;">
+    <div class="exp-icon">🔒</div>
+    <h3>填表時間已截止</h3>
+    <p>本次意願調查已於 <strong>2026 年 5 月 7 日下午 4:10</strong> 截止，<br>感謝所有已填寫的家長！</p>
+  </div>
+
   <form id="surveyForm">
 
-    <!-- Q1 -->
     <div class="q-card">
       <div class="q-card-header">
         <div class="q-num-wrap">
@@ -749,7 +735,6 @@
       <span class="q-divider-label">第 二 題</span>
     </div>
 
-    <!-- Q2 -->
     <div class="q-card">
       <div class="q-card-header">
         <div class="q-num-wrap">
@@ -800,7 +785,6 @@
       </div>
     </div>
 
-    <!-- NAME -->
     <div class="name-card">
       <label class="name-label">稱呼（選填）</label>
       <div class="name-input-wrap">
@@ -820,7 +804,6 @@
   <footer>雲科 × 湖山親子活動小組 © 2026</footer>
 </div>
 
-<!-- SUCCESS -->
 <div class="success-overlay" id="successOverlay">
   <div class="success-box">
     <div class="success-icon">✓</div>
@@ -828,6 +811,23 @@
     <p>您的意見已成功送出，我們將彙整所有家長的意見，共同為孩子們打造更好的活動體驗。</p>
   </div>
 </div>
+
+<!-- 截止時間判斷 -->
+<script>
+  (function() {
+    const DEADLINE = new Date('2026-05-07T16:10:00+08:00');
+    function checkDeadline() {
+      if (new Date() >= DEADLINE) {
+        document.getElementById('deadlineBanner').style.display = 'none';
+        document.getElementById('expiredOverlay').style.display = 'block';
+        document.getElementById('surveyForm').style.display = 'none';
+      }
+    }
+    checkDeadline();
+    const remaining = DEADLINE - new Date();
+    if (remaining > 0) setTimeout(checkDeadline, remaining);
+  })();
+</script>
 
 <!-- Firebase -->
 <script type="module">
@@ -847,7 +847,6 @@
   const app = initializeApp(firebaseConfig);
   const db = getDatabase(app);
 
-  // Custom mark interaction
   document.querySelectorAll('.option-item').forEach(item => {
     const input = item.querySelector('input');
     input.addEventListener('change', () => {
@@ -859,10 +858,7 @@
       if (input.checked) item.classList.add('selected');
       else item.classList.remove('selected');
     });
-    // Click whole card
-    item.addEventListener('click', () => {
-      input.click();
-    });
+    item.addEventListener('click', () => { input.click(); });
   });
 
   document.getElementById('surveyForm').addEventListener('submit', async (e) => {
